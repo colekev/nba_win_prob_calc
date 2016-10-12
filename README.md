@@ -52,7 +52,7 @@ And the mean squared error for each minute increment in the cross-validation set
 
 ![glm_versus_loc](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinErrorDiff.png)
 
-### Potential Issues and Next Steps
+## Potential Issues and Next Steps
 
 While I'm happy with the error improvement in the new model, there is a clear difference in how far the Lakers' win probability falls in the last minute of the game in my model versus that of inpredictable. My model gives much less credit to the Lakers as 6.5-point favorites, with the win probability only moving marginally. My model makes more intuitive sense: the point spread's effect on win probability should be much lower with fewer possessions remaining. But, my model also doesn't account for the possibility that the game could go into overtime, where there will be many more possessions for the favorite to impose its superiority.
 
