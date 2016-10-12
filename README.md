@@ -1,6 +1,6 @@
 # Creating an NBA Win Probability Calculator
 
-The 2016 NBA season is on the horizon, so I put together a win probability calculator in R that I can hopefully use on live games this upcoming season.
+The 2016-2017 NBA season is on the horizon, so I put together a win probability calculator in R that I can hopefully use on live games this upcoming season.
 
 There were a number of interesting wrinkles to the data gathering, cleaning and model-building process, which I will walk through below. You can view my [R code here](https://github.com/colekev/nba_win_prob_calc/blob/master/nba_win_prob.R).
 
@@ -56,6 +56,6 @@ And the mean squared error for each minute increment in the cross-validation set
 
 While I'm happy with the error improvement in the new model, there is a clear difference in how far the Lakers' win probability falls in the last minute of the game in my model versus that of inpredictable. My model gives much less credit to the Lakers as 6.5-point favorites, with the win probability only moving marginally. My model makes more intuitive sense: the point spread's effect on win probability should be much lower with fewer possessions remaining. But, my model also doesn't account for the possibility that the game could go into overtime, where there will be many more possessions for the favorite to impose its superiority.
 
-The [Cheap Talk blog](https://cheaptalk.org/2009/06/10/the-overtime-spike-in-nba-basketball/) found that 6.26% of NBA regular season games between 1997 and 2009 went to overtime, which is more siginificant than you'd think, but not high enough to cause such a large benefit to the favorite in terms of late-game win probability.
+The [Cheap Talk blog](https://cheaptalk.org/2009/06/10/the-overtime-spike-in-nba-basketball/) found that from 1997 to 2009 6.26% of NBA regular season games went to overtime, which is more siginificant than you'd think, but not high enough to cause such a large benefit to the favorite in terms of late-game win probability.
 
 I plan to continue to refine my model, in particular adding late game features. The influence of overtime, whether or not teams are in the penalty, if teams' star players have fouled out, and if a team is particular good at shooting 3-pointers are all potentially significant for adjusting win probability.
