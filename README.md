@@ -30,8 +30,7 @@ For illustrative purposes, I picked out one game of results to see if the output
 
 I made one major adjustment to the predicted probabilities to make the end-game results more senisical, and that was to make sure when the time remaining equaled zero, the team with the positive point differential was at a win probability of 1.0, and the trailing team at 0.0.
 
-```crossVal <- mutate(crossVal, est = ifelse(timeRemainMin == 0 & ptDiffV > 0, 1, 
-                                          ifelse(timeRemainMin == 0 & ptDiffV < 0, 0, 
-                                                 ifelse(est > 1, 1, 
-                                                        ifelse(est < 0, 0, est)))), estH = 1 - est)```
+As a check on the reasonableness of my model, I used the historical win probability graph from [the site inpreditable](http://stats.inpredictable.com/nba/wpBox.php?season=2010&month=10&date=2010-10-26&gid=0021000003&pregm=odds).
+
+![inpredict_graph](https://github.com/colekev/nba_win_prob_calc/blob/master/images/inpredict.png)
 
