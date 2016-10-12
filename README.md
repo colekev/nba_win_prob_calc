@@ -20,7 +20,7 @@ Without going into it in painstaking detail, I'll only say that data cleaning to
 
 Now I had all the data I needed for each possession to build a robust win probability calculator: the closing point spread, time remaining, point differential, possession (categorical) and whether the visiting team ended up winning the game. The goal is to use these data to estimate the probability of the visiting team winning for every possession line.
 
-### The Models
+#### The Models
 
 The most logical classifier to use for predicting a categorical outcome, like whether the visiting team was going to win or not, is logistic regression. I applied the `glm()` [function in R](http://www.statmethods.net/advstats/glm.html) using the "binomial" family to the training data set.
 
@@ -36,7 +36,7 @@ As a check on the reasonableness of my model, I used the historical win probabil
 
 While the general shape of the Lakers' win percentage curve on my graph (purple) mirrored that of inpredictable's, the end-of-game movements for inpredictable are much more dramatic. 
 
-### Adjustments
+#### Adjustments
 
 Simply looking at the game chart shows clearly that the win probability movements are likely too rigid early in the game when point differential movements should be less significant, and that the win probability should be much higher for the equivalent point different later in the game. 
 
