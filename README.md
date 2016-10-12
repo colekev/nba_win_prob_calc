@@ -1,6 +1,6 @@
 # Creating an NBA Win Probability Calculator
 
-The 2016 NBA season is on the horizon, so I put together a win probabilty calculator in R that I can hopefully use on live games this upcoming season.
+The 2016 NBA season is on the horizon, so I put together a win probability calculator in R that I can hopefully use on live games this upcoming season.
 
 There were a number of interesting wrinkles to the data gathering, cleaning and model-building process, which I will walk through below. You can view my [R code here](https://github.com/colekev/nba_win_prob_calc/blob/master/nba_win_prob.R).
 
@@ -22,13 +22,13 @@ Now I had all the data I needed for each possession to build a robust win probab
 
 ### The Models
 
-The most logical classifer to use for predicting a categorical outcome, like whether the visiting team was going to win or not, is logistic regression. The `glm()` [function in R](http://www.statmethods.net/advstats/glm.html) using the "binomial" family.
+The most logical classifier to use for predicting a categorical outcome, like whether the visiting team was going to win or not, is logistic regression. The `glm()` [function in R](http://www.statmethods.net/advstats/glm.html) using the "binomial" family.
 
 For illustrative purposes, I picked out one game of results to see if the output at least looked logical.
 
 ![log_game](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinProb.png)
 
-I made one major adjustment to the predicted probabilities to make the end-game results more senisical, and that was to make sure when the time remaining equaled zero, the team with the positive point differential was at a win probability of 1.0, and the trailing team at 0.0.
+I made one major adjustment to the predicted probabilities to make the end-game results more sensical, and that was to make sure when the time remaining equaled zero, the team with the positive point differential was at a win probability of 1.0, and the trailing team at 0.0.
 
 As a check on the reasonableness of my model, I used the historical win probability graph from [the site inpredictable](http://stats.inpredictable.com/nba/wpBox.php?season=2010&month=10&date=2010-10-26&gid=0021000003&pregm=odds).
 
@@ -48,7 +48,7 @@ The results now look much more similar to the inpredictable calculator.
 
 ![loc_graph](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinProbLoc_byQtr.png)
 
-Add the mean squared error for each minute increment in the cross-validation set is now lower than that of the logisitic regression using GLM, with the most dramatic imporovements near the beginnings and ends of games.
+Add the mean squared error for each minute increment in the cross-validation set is now lower than that of the logistic regression using GLM, with the most dramatic improvements near the beginnings and ends of games.
 
 ![glm_versus_loc](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinErrorDiff.png)
 
