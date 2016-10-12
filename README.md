@@ -48,3 +48,6 @@ The results now look much more similar to the inpredictable calculator.
 
 ![loc_graph](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinProbLoc_byQtr.png)
 
+Add the mean squared error for each minute increment in the cross-validation set is now lower than that of the logisitic regression using GLM, with the most dramatic imporovements near the beginnings and ends of games.
+
+![glm_versus_loc](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinErrorDiff.png)
