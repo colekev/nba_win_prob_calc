@@ -30,7 +30,21 @@ For illustrative purposes, I picked out one game of results to see if the output
 
 I made one major adjustment to the predicted probabilities to make the end-game results more senisical, and that was to make sure when the time remaining equaled zero, the team with the positive point differential was at a win probability of 1.0, and the trailing team at 0.0.
 
-As a check on the reasonableness of my model, I used the historical win probability graph from [the site inpreditable](http://stats.inpredictable.com/nba/wpBox.php?season=2010&month=10&date=2010-10-26&gid=0021000003&pregm=odds).
+As a check on the reasonableness of my model, I used the historical win probability graph from [the site inpredictable](http://stats.inpredictable.com/nba/wpBox.php?season=2010&month=10&date=2010-10-26&gid=0021000003&pregm=odds).
 
 ![inpredict_graph](https://github.com/colekev/nba_win_prob_calc/blob/master/images/inpredict.png)
+
+While the general shape of the Lakers' win percentage curve on my graph (purple) mirror that of inpredictable's, the end-of-game movements for inpredictable are much more dramatic. 
+
+### Adjustments
+
+Simply looking at the game chart shows clearly that the win probability movements are likely too rigid early in the game when point differential movements should be less significant, and that the win probability should be much higher for the equivalent point different later in the game. 
+
+In order to more heavily weight the the nearby or local condition in the regression calculation, I chose to use the [locfit package](https://cran.r-project.org/web/packages/locfit/locfit.pdf) in R, which uses similar local regression smoothing/fitting as the more commonly known `loess` regression method, but available to apply to logistic regression.
+
+In addition to using local fitting, I also trained and applied different models to the cross-validation set based on time remaining, with the time windows shrinking as game progressed.
+
+The results now look much more similar to the inpredictable calculator.
+
+![loc_graph](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinProbLoc_byQtr.png)
 
