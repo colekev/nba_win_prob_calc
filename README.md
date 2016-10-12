@@ -58,4 +58,4 @@ While I'm happy with the error improvement in the new model, there is a clear di
 
 The [Cheap Talk blog](https://cheaptalk.org/2009/06/10/the-overtime-spike-in-nba-basketball/) found that 6.26% of games between 1997 and 2009 went to overtime, which is more siginificant than you'd think, but not high enough to cause such a large benefit to the favorite in terms of late-game win probability.
 
-I plan to continue to refine my model, in particular adding late game features. The influence of overtime, whether or not teams are in the penalty, if teams' star players have fouled out, and if a team is particular good at shooting 3-pointers are all potential significant for adjusting win probability.
+I plan to continue to refine my model, in particular adding late game features. The influence of overtime, whether or not teams are in the penalty, if teams' star players have fouled out, and if a team is particular good at shooting 3-pointers are all potentially significant for adjusting win probability.
