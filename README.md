@@ -2,7 +2,7 @@
 
 The 2016 NBA season is on the horizon, so I put together a win probabilty calculator in R that I can hopefully use on live games this upcoming season.
 
-There were a number of interesting wrinkles to the data gathering, cleaning and model-building process, which I will walk through below.
+There were a number of interesting wrinkles to the data gathering, cleaning and model-building process, which I will walk through below. You can view my [R code here](https://github.com/colekev/nba_win_prob_calc/blob/master/nba_win_prob.R).
 
 ## The Data
 
