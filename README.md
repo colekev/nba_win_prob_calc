@@ -22,7 +22,7 @@ Now I had all the data I needed for each possession to build a robust win probab
 
 ### The Models
 
-The most logical classifier to use for predicting a categorical outcome, like whether the visiting team was going to win or not, is logistic regression. The `glm()` [function in R](http://www.statmethods.net/advstats/glm.html) using the "binomial" family.
+The most logical classifier to use for predicting a categorical outcome, like whether the visiting team was going to win or not, is logistic regression. I applied the `glm()` [function in R](http://www.statmethods.net/advstats/glm.html) using the "binomial" family to the training data set.
 
 For illustrative purposes, I picked out one game of results to see if the output at least looked logical.
 
