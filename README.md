@@ -22,5 +22,16 @@ Now I had all the data I needed for each possession to build a robust win probab
 
 ### The Models
 
-The most logical classifer to use for predicting a categorical outcome, like whether the visiting team was going to win or not, is logistic regression. The `glm()` [function in R](http://www.statmethods.net/advstats/glm.html) using the "binomial" family
+The most logical classifer to use for predicting a categorical outcome, like whether the visiting team was going to win or not, is logistic regression. The `glm()` [function in R](http://www.statmethods.net/advstats/glm.html) using the "binomial" family.
+
+For illustrative purposes, I picked out one game of results to see if the output at least looked logical.
+
+![log_game](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinProb.png)
+
+I made one major adjustment to the predicted probabilities to make the end-game results more senisical, and that was to make sure when the time remaining equaled zero, the team with the positive point differential was at a win probability of 1.0, and the trailing team at 0.0.
+
+```crossVal <- mutate(crossVal, est = ifelse(timeRemainMin == 0 & ptDiffV > 0, 1, 
+                                          ifelse(timeRemainMin == 0 & ptDiffV < 0, 0, 
+                                                 ifelse(est > 1, 1, 
+                                                        ifelse(est < 0, 0, est)))), estH = 1 - est)```
 
