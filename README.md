@@ -12,7 +12,7 @@ It wasn't the cleanest data, as you can see below.
 
 ![pbp_clean](https://github.com/colekev/nba_win_prob_calc/blob/master/images/pbp_preClean.png)
 
-Without going into it in painstaking detail, I'll only say that data cleaning took some than a few lines of code. Once the data was cleaned and I had all the relevant information, I combined that data frame with historical point spreads (generously provided by [Sports Insights](https://www.sportsinsights.com/)). It also took some renaming of the point spread data to combine it with the play-by-play data, but once I had the matching dates and vistor/home team abbreviation, the `leftjoin()` function from the [dplyr package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) worked beautifully to combine the data.
+Without going into it in painstaking detail, I'll only say that data cleaning took some than a few lines of code. Once the data was cleaned and I had all the relevant information, I combined that data frame with historical point spreads (generously provided by [Sports Insights](https://www.sportsinsights.com/)). It also took some renaming of the point spread data to combine it with the play-by-play data, but once I had the matching dates and vistor/home team abbreviations, the `leftjoin()` function from the [dplyr package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) worked beautifully to combine the data.
 
 ![pbp_clean_pos](https://github.com/colekev/nba_win_prob_calc/blob/master/images/pbp_posClean.png)
 
@@ -24,7 +24,7 @@ Now I had all the data I needed for each possession to build a robust win probab
 
 The most logical classifier to use for predicting a categorical outcome, like whether the visiting team was going to win or not, is logistic regression. I applied the `glm()` [function in R](http://www.statmethods.net/advstats/glm.html) using the "binomial" family to the training data set.
 
-For illustrative purposes, I picked out one game of results to see if the output at least looked logical.
+For illustrative purposes, I picked out one game out of the cross-validation set to check if the output looked logical.
 
 ![log_game](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinProb.png)
 
