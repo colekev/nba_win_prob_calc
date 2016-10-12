@@ -34,7 +34,7 @@ As a check on the reasonableness of my model, I used the historical win probabil
 
 ![inpredict_graph](https://github.com/colekev/nba_win_prob_calc/blob/master/images/inpredict.png)
 
-While the general shape of the Lakers' win percentage curve on my graph (purple) mirror that of inpredictable's, the end-of-game movements for inpredictable are much more dramatic. 
+While the general shape of the Lakers' win percentage curve on my graph (purple) mirrored that of inpredictable's, the end-of-game movements for inpredictable are much more dramatic. 
 
 ### Adjustments
 
