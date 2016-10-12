@@ -28,7 +28,7 @@ For illustrative purposes, I picked out one game out of the cross-validation set
 
 ![log_game](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinProb.png)
 
-I made one major adjustment to the predicted probabilities to make the end-game results more sensical, and that was to make sure when the time remaining equaled zero, the team with the positive point differential was at a win probability of 1.0, and the trailing team at 0.0.
+I made one major adjustment to the predicted probabilities to make the end-game results more sensical. When the time remaining equaled zero, the team with the positive point differential was set to a win probability of 1.0, and the trailing team to 0.0.
 
 As a check on the reasonableness of my model, I used the historical win probability graph from [the site inpredictable](http://stats.inpredictable.com/nba/wpBox.php?season=2010&month=10&date=2010-10-26&gid=0021000003&pregm=odds).
 
