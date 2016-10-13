@@ -12,7 +12,7 @@ It wasn't the cleanest data, as you can see below.
 
 ![pbp_clean](https://github.com/colekev/nba_win_prob_calc/blob/master/images/pbp_preClean.png)
 
-Without going into it in painstaking detail, I'll say that data cleaning took more than a few lines of code. After I cleaned the data and had all the relevant information, I combined the data frame with historical point spreads. (I reached out to [Sports Insights](https://www.sportsinsights.com/), which generously provided me the data). Once I had the matching dates and vistor/home team abbreviations on both data frames, the `leftjoin()` function from the [dplyr package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) worked beautifully to combine them.
+After I cleaned the data and had all the relevant information in a workable format, I combined the play-by-play data with historical closing point spreads for every game. (I reached out to [Sports Insights](https://www.sportsinsights.com/), which generously provided me the data). Once I had the matching dates and vistor/home team abbreviations on both data frames, the `leftjoin()` function from the [dplyr package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) worked beautifully to combine them.
 
 ![pbp_clean_pos](https://github.com/colekev/nba_win_prob_calc/blob/master/images/pbp_posClean.png)
 
@@ -22,7 +22,7 @@ I had all the data I needed for each possession to build a robust win probabilit
 
 #### The Models
 
-The most logical classifier to use for predicting a categorical outcome - like whether the visiting team was going to win or not - is logistic regression. I applied the `glm()` [function in R](http://www.statmethods.net/advstats/glm.html) using the "binomial" family to the training data set.
+I used logistic regression to model the likelihood of victory for the visiting team on each possession by applying the `glm()` [function in R](http://www.statmethods.net/advstats/glm.html) using the "binomial" family to the training data set. 
 
 For illustrative purposes, I picked one game out of the cross-validation set to check if the output looked logical.
 
@@ -40,22 +40,22 @@ While the general shape of the Lakers' win percentage curve on my graph (purple)
 
 A comparison of the game charts shows that the win probability movements in my model are likely too dramatic early in the game, and that the win probability should be much higher for the equivalent point differential later in the game. 
 
-In order to more heavily weight the nearby or local condition in the regression calculation, I chose to use the [locfit package](https://cran.r-project.org/web/packages/locfit/locfit.pdf) in R. Locfit uses a similar local regression smoothing/fitting formula as the more commonly known `loess` regression method, but can be applied to logistic regression.
+In order to more heavily weight the nearby or local condition in the regression calculation, I used the [locfit package](https://cran.r-project.org/web/packages/locfit/locfit.pdf) in R. Locfit uses a similar local regression smoothing/fitting formula as the more commonly known `loess` regression method, but can be applied to logistic regression.
 
-In addition to using local fitting, I also trained and applied different models to the cross-validation set based on how much time remained, with the windows shrinking as game progressed.
+In addition to using local fitting, I also trained and applied different models to the cross-validation set based on how much time remained, with the windows shrinking as game progressed. The best fit I found during the cross-validation process was to separate the data by quarter and train a different model for each. I also separated out the last two minutes of the game into its own model, when factos like time remaining and possession become much more important.
 
-The results now look much more similar to the inpredictable calculator.
+The updated results now look more similar to the inpredictable calculator.
 
 ![loc_graph](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinProbLoc_byQtr.png)
 
-The mean squared error using the locfit model for each minute increment in the cross-validation set is lower than that of the GLM/binomial model, with the most dramatic improvements at the beginning and end of the game.
+And the mean squared error for each time remaining increment using the adjusted locfit model is lower than that of the GLM/binomial model, with the most dramatic improvements at beginnings and ends of games.
 
 ![glm_versus_loc](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinErrorDiff.png)
 
 ## Potential Issues and Next Steps
 
-While I'm happy with the error improvement in the new model, there is still a material difference in how far the Lakers' win probability falls in the last minute of the game in my model versus inpredictable's. My model gives much less credit to the Lakers as 6.5-point favorites. This makes more intuitive sense: the point spread's effect on win probability should be much lower with fewer possessions remaining. But, my model also doesn't account for the possibility that the game could go into overtime, where there will be many more possessions for the favorite to impose its superiority.
+While I'm happy with the error improvement in the new model, there is still a material difference in how far the Lakers' win probability falls in the last minute of the game in my model versus inpredictable's. My model gives much less credit to the Lakers as 6.5-point favorites. This makes intuitive sense: the point spread's effect on win probability should be much lower with fewer possessions remaining. But, my model also doesn't account for the possibility of overtime, where there will be many more possessions for the favorite to impose its assumed strength.
 
 The [Cheap Talk blog](https://cheaptalk.org/2009/06/10/the-overtime-spike-in-nba-basketball/) found that 6.26% of NBA regular season games from 1997 to 2009 went to overtime, which is more siginificant than you'd think, but probably not high enough to cause such a large benefit to the favorite in terms of late-game win probability.
 
-I plan to continue to refine my model, in particular adding more late game features to improve the accuracy of win probabilities. The influence of overtime, whether or not teams are in the penalty, if teams' star players have fouled out, and if a team is particular good at shooting 3-pointers are all potentially significant for adjusting win probability.
+I plan to continue to refine my model, in particular adding more late game features to improve the accuracy of win probabilities. I also want to build a front-end [shiny app](http://shiny.rstudio.com/) that will enable users to search and display historical win probability charts.
