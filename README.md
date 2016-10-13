@@ -6,13 +6,13 @@ There were a number of interesting wrinkles to the data gathering, cleaning and 
 
 ## The Data
 
-I didn't do an exhaustive search to find the perfectly formatted NBA play-by-play data, but I still found multiple years of data (2006-2012) for free on [BasketBallValue.com](http://basketballvalue.com/downloads.php). 
+I didn't do an exhaustive search to find the perfectly formatted NBA play-by-play data, but I still found multiple years of free data (2006-2012) on [BasketBallValue.com](http://basketballvalue.com/downloads.php). 
 
 It wasn't the cleanest data, as you can see below.
 
 ![pbp_clean](https://github.com/colekev/nba_win_prob_calc/blob/master/images/pbp_preClean.png)
 
-After I cleaned the data and had all the relevant information in a workable format, I combined the play-by-play data with historical closing point spreads for every game. (I reached out to [Sports Insights](https://www.sportsinsights.com/), which generously provided me the data). Once I had the matching dates and vistor/home team abbreviations on both data frames, the `leftjoin()` function from the [dplyr package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) worked beautifully to combine them.
+After I cleaned the data and had all the relevant information in a workable format, I combined the play-by-play data with historical closing point spreads for every game. (I reached out to [Sports Insights](https://www.sportsinsights.com/), which generously provided me the point spread data). Once I had the matching dates and vistor/home team abbreviations on both data frames, the `leftjoin()` function from the [dplyr package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) worked beautifully to combine them.
 
 ![pbp_clean_pos](https://github.com/colekev/nba_win_prob_calc/blob/master/images/pbp_posClean.png)
 
@@ -24,25 +24,23 @@ I had all the data I needed for each possession to build a robust win probabilit
 
 I used logistic regression to model the likelihood of victory for the visiting team on each possession by applying the `glm()` [function in R](http://www.statmethods.net/advstats/glm.html) using the "binomial" family to the training data set. 
 
-For illustrative purposes, I picked one game out of the cross-validation set to check if the output looked logical.
+To get a micro view of the data, I picked one game out of the cross-validation set to check if the output looked logical.
 
 ![log_game](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinProb.png)
 
-I made one major adjustment to the predicted probabilities to make the end-game results more sensical. When the time remaining equaled zero, the team with the positive point differential was set to a win probability of 1.0, and the trailing team to 0.0.
+I made one major adjustment to the predicted probabilities from the model to make end-game results more sensical. When the time remaining equaled zero, the team with the positive point differential was set to a win probability of 1.0, and the trailing team to 0.0.
 
 As a check on the reasonableness of my model, I looked up the historical win probability graph from [the site inpredictable](http://stats.inpredictable.com/nba/wpBox.php?season=2010&month=10&date=2010-10-26&gid=0021000003&pregm=odds) for comparison.
 
 ![inpredict_graph](https://github.com/colekev/nba_win_prob_calc/blob/master/images/inpredict.png)
 
-While the general shape of the Lakers' win percentage curve on my graph (purple) mirrored that of inpredictable's, the end-of-game movements for inpredictable are much more dramatic. 
-
 #### Adjustments
 
 A comparison of the game charts shows that the win probability movements in my model are likely too dramatic early in the game, and that the win probability should be much higher for the equivalent point differential later in the game. 
 
-In order to more heavily weight the nearby or local condition in the regression calculation, I used the [locfit package](https://cran.r-project.org/web/packages/locfit/locfit.pdf) in R. Locfit uses a similar local regression smoothing/fitting formula as the more commonly known `loess` regression method, but can be applied to logistic regression.
+Fitting one logistic regression model to the entire length of the game could be causing larger errors in the predicted probabilities at the ends of the chart. In order to more heavily weight the nearby or local conditions in the regression calculation, I used the [locfit package](https://cran.r-project.org/web/packages/locfit/locfit.pdf) in R. Locfit uses a similar local regression smoothing/fitting technique as the more commonly known `loess` regression method, but can be applied to not only linear regression, but also logistic regression. The locfit should improve the models ability by varying the the weighting scheme based on the local conditions, not those of the entire data set.
 
-In addition to using local fitting, I also trained and applied different models to the cross-validation set based on how much time remained, with the windows shrinking as game progressed. The best fit I found during the cross-validation process was to separate the data by quarter and train a different model for each. I also separated out the last two minutes of the game into its own model, when factos like time remaining and possession become much more important.
+In addition to using local fitting, I also trained and applied different locfit models based on how much time remained, with the time windows shrinking as game progressed. The best fit I found during the cross-validation process was to separate the data by quarter and train a different model for each. I also separated out the last two minutes of the game into its own model, when factos like time remaining and possession become more important.
 
 The updated results now look more similar to the inpredictable calculator.
 
