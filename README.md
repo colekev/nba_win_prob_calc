@@ -12,19 +12,19 @@ It wasn't the cleanest data, as you can see below.
 
 ![pbp_clean](https://github.com/colekev/nba_win_prob_calc/blob/master/images/pbp_preClean.png)
 
-Without going into it in painstaking detail, I'll say that data cleaning took some than a few lines of code. Once the data was cleaned and I had all the relevant information, I combined the data frame with historical point spreads (generously provided by [Sports Insights](https://www.sportsinsights.com/)). Once I had the matching dates and vistor/home team abbreviations on both data frames, the `leftjoin()` function from the [dplyr package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) worked beautifully to combine them.
+Without going into it in painstaking detail, I'll say that data cleaning took more than a few lines of code. After I cleaned the data and had all the relevant information, I combined the data frame with historical point spreads. (I reached out to [Sports Insights](https://www.sportsinsights.com/), which generously provided me the data). Once I had the matching dates and vistor/home team abbreviations on both data frames, the `leftjoin()` function from the [dplyr package](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) worked beautifully to combine them.
 
 ![pbp_clean_pos](https://github.com/colekev/nba_win_prob_calc/blob/master/images/pbp_posClean.png)
 
 ## The Process
 
-I had all the data I needed for each possession to build a robust win probability calculator: the closing point spread, time remaining, point differential, possession (categorical) and whether the visiting team ended up winning the game. Now I need to use these data to estimate the probability of the visiting team winning for every possession (every data frame row).
+I had all the data I needed for each possession to build a robust win probability calculator: the closing point spread, time remaining, point differential, possession and whether the visiting team ended up winning the game. 
 
 #### The Models
 
 The most logical classifier to use for predicting a categorical outcome - like whether the visiting team was going to win or not - is logistic regression. I applied the `glm()` [function in R](http://www.statmethods.net/advstats/glm.html) using the "binomial" family to the training data set.
 
-For illustrative purposes, I picked out one game out of the cross-validation set to check if the output looked logical.
+For illustrative purposes, I picked one game out of the cross-validation set to check if the output looked logical.
 
 ![log_game](https://github.com/colekev/nba_win_prob_calc/blob/master/images/nbaWinProb.png)
 
@@ -38,9 +38,9 @@ While the general shape of the Lakers' win percentage curve on my graph (purple)
 
 #### Adjustments
 
-Simply looking at the game chart shows clearly that the win probability movements are likely too rigid early in the game when point differential movements should be less significant, and that the win probability should be much higher for the equivalent point different later in the game. 
+A comparison of the game charts shows that the win probability movements in my model are likely too dramatic early in the game, and that the win probability should be much higher for the equivalent point differential later in the game. 
 
-In order to more heavily weight the the nearby or local condition in the regression calculation, I chose to use the [locfit package](https://cran.r-project.org/web/packages/locfit/locfit.pdf) in R, which uses similar local regression smoothing/fitting as the more commonly known `loess` regression method, but available to apply to logistic regression.
+In order to more heavily weight the nearby or local condition in the regression calculation, I chose to use the [locfit package](https://cran.r-project.org/web/packages/locfit/locfit.pdf) in R. Locfit uses a similar local regression smoothing/fitting formula as the more commonly known `loess` regression method, but can be applied to logistic regression.
 
 In addition to using local fitting, I also trained and applied different models to the cross-validation set based on time remaining, with the time windows shrinking as game progressed.
 
